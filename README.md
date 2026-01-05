@@ -2,16 +2,16 @@
 
 ---
 
-## Introducción
+## Introduccion
 
-Este proyecto propone un **sistema autónomo y automático de control térmico** para PODs de Data Center, tanto **confinados** (CAC / HAC) como  **no confinados** , orientado a:
+Este proyecto propone un **sistema autónomo y automático de control termico** para PODs de Data Center, tanto **confinados** (CAC / HAC) como  **no confinados** , orientado a:
 
 * Proteger la carga IT
 * Optimizar el consumo energético
 * Mantener continuidad operativa ante fallas
 * Reducir la intervención manual
 
-El sistema está diseñado para controlar  **4 unidades InRow** , cada una refrigerando  **3 racks** , utilizando sensores críticos de temperatura de entrada ( **INLET** ) y sensores de contexto según el escenario operativo.
+El sistema se diseña para controlar  **4 unidades InRow** , cada una refrigerando  **3 racks** , utilizando sensores críticos de temperatura de entrada ( **INLET** ) y sensores de contexto segun el escenario operativo.
 
 ---
 
@@ -23,6 +23,35 @@ El sistema está diseñado para controlar  **4 unidades InRow** , cada una refri
 * Detectar fallas de sensores y operar de forma segura
 * Emitir alertas ante condiciones anómalas
 * Funcionar como una  **política automática** , no como un simple script
+
+---
+
+
+## Arquitectura física y sensorica del POD
+
+El siguiente diagrama representa la disposición física del POD, la circulación de aire
+y la ubicación de sensores y unidades InRow utilizados por el sistema de control autónomo.
+
+![Arquitectura del POD con sensores](imagenes/pod_diagrama.png)
+
+### Leyenda de sensores y actuadores
+
+ST-AMB = Sensor de temperatura ambiente (sensor de contexto)
+
+ST-HAC = Sensor de temperatura de pasillo caliente (sensor de contexto)
+
+S-DOOR = Sensor de estado de puertas de confinamiento (abierta / cerrada)
+
+ST-IN(x) = Sensor de temperatura de entrada al rack (INLET) asociado al InRow x
+(sensor crítico de control térmico)
+
+IN-(x) = Unidad de refrigeración InRow x
+
+SP_(x) = Setpoint de temperatura configurado en el InRow x (lectura/escritura)
+
+> **Nota:**
+> El control térmico automático se gobierna exclusivamente por los sensores ST-IN.
+> El resto de los sensores aportan contexto operativo, diagnóstico y validación.
 
 ---
 
@@ -49,13 +78,13 @@ incluyendo validación de sensores, modos operativos y toma de decisiones.
 flowchart TD
     A[Inicio del Ciclo de Control] --> B[Lectura de Sensores]
 
-    B --> C[Validación de lecturas]
+    B --> C[Validacion de lecturas]
 
     C --> D{Estado del sensor}
 
     D -->|OK| E[Modo Normal]
     D -->|Inestable| F[Modo Degradado]
-    D -->|Caído| G[Modo Seguro]
+    D -->|Caido| G[Modo Seguro]
 
     E --> H[Leer setpoint actual InRow]
     F --> H
@@ -63,15 +92,15 @@ flowchart TD
 
     H --> I[Evaluar temperatura de entrada al rack]
 
-    I --> J[Calcular setpoint según modo activo]
+    I --> J[Calcular setpoint segun modo activo]
 
     J --> K[Aplicar setpoint al InRow]
 
-    K --> L[Registrar log / auditoría]
+    K --> L[Registrar log / auditoria / DB]
 
-    L --> M[Definir próximo intervalo Δt]
+    L --> M[Definir proximo intervalo de control]
 
-    M --> N[Esperar Δt]
+    M --> N[Esperar para ejecutar]
 
     N --> A
 ```
@@ -94,13 +123,13 @@ flowchart TD
 
 > **Importante**
 >
-> La temperatura del aire caliente es informativa, pero **nunca reemplaza** la temperatura de entrada al rack como variable de control.
+> La temperatura del aire caliente es informativa, pero **no reemplaza** la temperatura de entrada al rack como variable de control.
 
 ---
 
 ## Gestión inteligente de fallas de sensores
 
-El sistema  **no reacciona ante una única lectura inválida** .
+El sistema  **no reacciona ante una unica lectura inválida** .
 
 ### Política de validación
 
@@ -246,33 +275,38 @@ Ejemplo:
 
 ## Beneficios del sistema
 
-✔ Reducción de riesgo térmico
-
-✔ Menor intervención humana
-
-✔ Mayor eficiencia energética
-
-✔ Resiliencia ante fallas
-
-✔ Escalabilidad
-
-✔ Auditoría y trazabilidad
+- Reducción de riesgo térmico
+- Menor intervención humana
+- Mayor eficiencia energética
+- Resiliencia ante fallas
+- Escalabilidad
+- Auditoría y trazabilidad
 
 ---
 
 ## Conclusión
 
-Este proyecto no busca solo automatizar equipos, sino  **establecer una política autónoma de refrigeración** , capaz de adaptarse al contexto real del Data Center.
+El proyecto propone un cambio de enfoque en la gestión térmica del Data Center:
 
-> **La automatización no reemplaza al operador: le devuelve control estratégico.**
->
-> **El sistema no automatiza equipos. Automatiza decisiones.**
+pasar de una operación reactiva y manual, a una  **politica autonoma, gobernada por reglas claras**.
+
+Al operar sobre la  **temperatura real de entrada al rack** , el sistema permite:
+
+* **Optimizar el consumo energético** de las unidades de refrigeración
+* **Evitar sobreenfriamientos innecesarios**
+* **Proteger y prolongar la vida útil de los equipos IT**
+
+La eficiencia energética no se persigue a costa del riesgo operativo, sino como consecuencia de un control térmico preciso, contextual y seguro.
+
+> Automatizar no es apagar al operador, es darle un sistema que piense de forma consistente, segura y predecible.
 
 ---
 
-## Mejoras y Próximos pasos
+## Mejoras Futuras
 
 * Integración con DCIM
 * Alertas reales (Mail / Teams / WhatsApp)
 * Históricos y dashboards
-* Predicción térmica (ML)
+* Pausar/ Accionar por mantenimiento
+* Front para visualizacion de DB y Sistema de control
+* Prediccion termica (ML)
