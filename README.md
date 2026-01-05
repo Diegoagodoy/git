@@ -39,7 +39,6 @@ Ante eventos anómalos, cambia su  **modo de operación** , no su ejecución.
 * 🟢 **Modo Normal** → Control fino y eficiente
 * 🟡 **Modo Degradado** → Control conservador
 * 🔴 **Modo Seguro** → Prioridad operativa
-* 
 
 ## Diagrama del Ciclo de Control Autónomo
 
@@ -136,24 +135,24 @@ El sistema  **no reacciona ante una única lectura inválida** .
 
 ### Configuración general del sistema
 
-<pre class="overflow-visible! px-0!" data-start="4101" data-end="4456"><div class="contain-inline-size rounded-2xl corner-superellipse/1.1 relative bg-token-sidebar-surface-primary"><div class="sticky top-[calc(--spacing(9)+var(--header-height))] @w-xl/main:top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-python"><span><span># 🎯 OBJETIVOS TÉRMICOS</span><span>
+<pre class="overflow-visible! px-0!" data-start="4101" data-end="4456"><div class="contain-inline-size rounded-2xl corner-superellipse/1.1 relative bg-token-sidebar-surface-primary"><div class="sticky top-[calc(--spacing(9)+var(--header-height))] @w-xl/main:top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-python"><span><span># OBJETIVOS TÉRMICOS</span><span>
 TEMPERATURA_OBJETIVO = </span><span>22.0</span><span>
 BANDA_MUERTA = </span><span>0.5</span><span>
 
-</span><span># 🔒 LÍMITES OPERATIVOS</span><span>
+</span><span># LÍMITES OPERATIVOS</span><span>
 SETPOINT_MINIMO = </span><span>17.0</span><span>
 SETPOINT_MAXIMO = </span><span>25.0</span><span>
 
-</span><span># ⏱️ INTERVALOS DE CONTROL</span><span>
+</span><span># INTERVALOS DE CONTROL</span><span>
 INTERVALO_NORMAL = </span><span>20</span><span> * </span><span>60</span><span>
 INTERVALO_ALERTA = </span><span>5</span><span> * </span><span>60</span><span>
 INTERVALO_CRITICO = </span><span>2</span><span> * </span><span>60</span><span>
 
-</span><span># 🔧 AJUSTES</span><span>
+</span><span># AJUSTES</span><span>
 AJUSTE_SUAVE = </span><span>0.5</span><span>
 AJUSTE_RAPIDO = </span><span>1.0</span><span>
 
-</span><span># 🏗️ ESCENARIO</span><span>
+</span><span># ESCENARIO</span><span>
 ESCENARIO_POD = </span><span>"HAC"</span><span>
 </span></span></code></div></div></pre>
 
